@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.HelloWorld</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 24px;
+            color: blue;
+            display: none; /* 初期状態は非表示 */
+        }
+    </style>
+</head>
+<body>
+    <h1>2.HelloWorld</h1>
+    <button id="myButton">クリックしてメッセージを表示/非表示</button>
+    <div id="output">Hello, World!</div>
+
+    <script>
+        // この関数を完成させてください
+        function toggleMessage() {
+            var output = document.getElementById('output');
+            // outputの表示状態を切り替えるコードを追加してください
+            if (output.style.display === "none" || output.style.display === "") {
+                output.style.display = "block"; // 表示する場合
+            } else {
+                output.style.display = "none"; // 非表示にする場合
+            }
+        }
+
+        // ボタンがクリックされたときにtoggleMessage関数を呼び出す
+        document.getElementById('myButton').addEventListener('click', toggleMessage);
+    </script>
+</body>
+</html>

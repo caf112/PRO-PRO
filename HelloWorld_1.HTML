@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.HelloWorld</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 24px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>1.HelloWorld</h1>
+    <button id="myButton">クリックしてメッセージを表示</button>
+    <div id="output"></div>
+
+    <script>
+        // この関数を完成させてください
+        function showMessage() {
+            // ここにコードを追加して、outputにメッセージを表示する
+            document.getElementById('output').innerText = document.getElementById('output').innerText = "Hello, World!";
+        }
+
+        // ボタンがクリックされたときにshowMessage関数を呼び出す
+        document.getElementById('myButton').addEventListener('click', showMessage);
+    </script>
+</body>
+</html>
