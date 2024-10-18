@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.console.log</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif; /* フォントファミリーを設定 */
+        text-align: center; /* 中央揃え */
+        margin: 0; /* マージンをリセット */
+        padding: 50px; /* 上下のパディングを追加 */
+        background-color: #f4f4f4; /* 背景色を設定 */
+        color: #333; /* テキスト色を設定 */
+    }
+    h1 {
+        font-size: 2em; /* 見出しのフォントサイズ */
+        margin-bottom: 20px; /* 見出しと本文の間のマージン */
+    }
+    p {
+        font-size: 1.2em; /* 本文のフォントサイズ */
+    }
+    .console-instruction {
+        font-weight: bold; /* 重要な部分を太字に */
+        color: #007BFF; /* ブルーの色を設定 */
+    }
+    #message {
+        font-size: 1.5em; /* メッセージのフォントサイズ */
+        margin-top: 20px; /* 上部にスペースを追加 */
+    }
+</style>
+</head>
+<body>
+<h1>コンソール確認の指示</h1>
+<p class="console-instruction">F12を押して、コンソールを確認してください</p>
+<div id="message">ここにメッセージが表示されます</div> <!-- メッセージを表示するための要素 -->
+
+<script>
+    document.onkeydown = function(event) {
+        var messageElement = document.getElementById("message");
+        switch (event.key) {
+            case "Enter":
+                console.log("キー 'Enter' が押されました。");
+                messageElement.textContent = "キー 'Enter' が押されました。";
+                messageElement.style.color = "blue"; 
+                break;
+            case "a":
+                console.log("キー 'a' が押されました。");
+                messageElement.textContent = "キー 'a' が押されました。";
+                messageElement.style.color = "green"; 
+                break;
+            case "b":
+                console.log("キー 'b' が押されました。");
+                messageElement.textContent = "キー 'b' が押されました。";
+                messageElement.style.color = "red"; 
+                break;
+            default:
+                console.log("他のキーが押されました: " + event.key);
+                messageElement.textContent = "他のキーが押されました: " + event.key;
+                messageElement.style.color = "black"; 
+                break;
+        }
+    };
+</script>
+</body>
+</html>
