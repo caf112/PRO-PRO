@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Number Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        #result {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+        #history {
+            margin-top: 30px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>数字を選択してください</h1>
+
+    <select id="numberSelect">
+        <option value="">1から10までの数字を選択</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+    </select>
+
+    <button id="addButton">追加</button> <!-- 数字追加ボタン -->
+    <button id="resetButton">リセット</button> <!-- リセットボタン -->
+    
+    <div id="result"></div> <!-- 合計と平均の表示エリア -->
+    <div id="history"></div> <!-- 数字の履歴表示エリア -->
+
+    <script>
+        let numbers = []; // 選択された数字を格納する配列
+
+        document.getElementById("addButton").onclick = function() {
+            const selectedNumber = parseInt(document.getElementById("numberSelect").value);
+            if (!isNaN(selectedNumber)) {
+                numbers.push(selectedNumber);
+                updateResult();
+                updateHistory(selectedNumber);
+            }
+        };
+
+        document.getElementById("resetButton").onclick = function() {
+            numbers = []; // 数字の履歴をクリア
+            document.getElementById("result").textContent = ""; // 合計と平均をクリア
+            document.getElementById("history").innerHTML = ""; // 履歴をクリア
+        };
+
+        function updateResult() {
+            const sum = numbers.reduce((acc, num) => acc + num, 0); // 合計を計算
+            const average = (sum / numbers.length).toFixed(2); // 平均を計算（小数点以下2桁）
+
+            document.getElementById("result").textContent = `合計: ${sum}, 平均: ${average}`; // 合計と平均を表示
+        }
+
+        function updateHistory(number) {
+            const historyElement = document.getElementById("history");
+            historyElement.innerHTML += `<div>${number}</div>`; // 数字の履歴を追加
+        }
+    </script>
+</body>
+</html>

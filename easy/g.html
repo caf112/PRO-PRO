@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>色選択アプリ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 50px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        #history {
+            margin-top: 30px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>色を選択してください</h1>
+
+    <select id="colorSelect">
+        <option value="">色を選択</option>
+        <option value="red">赤</option>
+        <option value="green">緑</option>
+        <option value="blue">青</option>
+        <option value="yellow">黄</option>
+        <option value="purple">紫</option>
+        <option value="orange">オレンジ</option>
+        <option value="pink">ピンク</option>
+    </select>
+
+    <button id="changeColorButton">背景色を変更</button>
+    <button id="resetButton">履歴をクリア</button> <!-- リセットボタン -->
+
+    <div id="history"></div> <!-- 色の履歴表示エリア -->
+
+    <script>
+        const history = []; // 色の履歴を格納する配列
+
+        document.getElementById("changeColorButton").onclick = function() {
+            const selectedColor = document.getElementById("colorSelect").value;
+            if (selectedColor) {
+                document.body.style.backgroundColor = selectedColor; // 背景色を変更
+                updateHistory(selectedColor); // 履歴を更新
+            }
+        };
+
+        function updateHistory(color) {
+            const historyElement = document.getElementById("history");
+            history.push(color); // 履歴に色を追加
+            historyElement.innerHTML += `<div style="color: ${color}">${color}</div>`; // 色付きの履歴を追加
+        }
+
+        document.getElementById("resetButton").onclick = function() {
+            document.body.style.backgroundColor = "#f4f4f4"; // 背景色をリセット
+            history.length = 0; // 履歴をクリア
+            document.getElementById("history").innerHTML = ""; // 履歴表示をクリア
+        };
+    </script>
+</body>
+</html>

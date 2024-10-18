@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Interactive Message Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* フォントファミリーを設定 */
+            text-align: center; /* 中央揃え */
+            margin: 0; /* マージンをリセット */
+            padding: 50px; /* 上下のパディングを追加 */
+            background-color: #f4f4f4; /* 背景色を設定 */
+            color: #333; /* テキスト色を設定 */
+        }
+        h1 {
+            font-size: 2em; /* 見出しのフォントサイズ */
+            margin-bottom: 20px; /* 見出しと本文の間のマージン */
+        }
+        select, input[type="text"], button {
+            padding: 10px; /* 要素のパディング */
+            font-size: 1em; /* フォントサイズ */
+            margin-bottom: 20px; /* 要素間のマージン */
+        }
+        #message {
+            font-size: 1.5em; /* メッセージのフォントサイズ */
+            margin-top: 20px; /* 上部にスペースを追加 */
+            display: none; /* 初期状態は非表示 */
+            opacity: 0; /* 初期透明度 */
+            transform: translateY(-20px); /* 初期位置を少し上に */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* 透明度と位置変更のトランジション */
+            cursor: pointer; /* クリック可能にする */
+        }
+        #errorMessage {
+            color: red; /* エラーメッセージの色 */
+            display: none; /* 初期状態は非表示 */
+            margin-top: 20px; /* 上部にスペースを追加 */
+        }
+        #history {
+            margin-top: 30px; /* 履歴の上部にスペースを追加 */
+            text-align: left; /* 左揃え */
+        }
+    </style>
+</head>
+<body>
+    <h1>メッセージを選択してください</h1>
+
+    <select id="messageType">
+        <option value="">メッセージのタイプを選択</option>
+        <option value="一般">一般</option>
+        <option value="警告">警告</option>
+        <option value="成功">成功</option>
+    </select>
+
+    <select id="messageSelect">
+        <option value="">メッセージを選択</option>
+        <option value="ボタンが押されました！">ボタンが押されました！</option>
+        <option value="次のメッセージです！">次のメッセージです！</option>
+        <option value="もう一度選んでみて！">もう一度選んでみて！</option>
+        <option value="最後のメッセージです！">最後のメッセージです！</option>
+    </select>
+
+    <input type="text" id="customMessage" placeholder="カスタムメッセージを入力してください">
+    
+    <button id="showButton">表示</button> <!-- 表示ボタン -->
+    <div id="message"></div> <!-- メッセージ表示エリア -->
+    <div id="errorMessage">選択または入力したメッセージは表示制限に達しました。</div> <!-- エラーメッセージ -->
+    <div id="history"></div> <!-- メッセージ履歴表示エリア -->
+    <button id="clearHistoryButton">履歴をクリア</button> <!-- 履歴クリアボタン -->
+
+    <script>
+        let count = { 一般: 0, 警告: 0, 成功: 0 }; // メッセージのタイプごとのカウント
+        const maxCount = 5; // 各メッセージの表示回数制限
+
+        function updateHistory(message) {
+            const historyElement = document.getElementById("history");
+            historyElement.innerHTML += `<div>${message}</div>`;
+        }
+
+        document.getElementById("showButton").onclick = function() {
+            const messageType = document.getElementById("messageType").value;
+            const messageElement = document.getElementById("message");
+            const selectedMessage = document.getElementById("messageSelect").value || document.getElementById("customMessage").value;
+            const errorMessageElement = document.getElementById("errorMessage");
+
+            if (selectedMessage && messageType) {
+                // カウントを増やす
+                if (count[messageType] < maxCount) {
+                    count[messageType]++;
+                    errorMessageElement.style.display = "none"; // エラーメッセージを隠す
+
+                    messageElement.textContent = selectedMessage;
+
+                    // 色を設定
+                    let color;
+                    switch (messageType) {
+                        case "一般":
+                            color = "blue";
+                            break;
+                        case "警告":
+                            color = "red";
+                            break;
+                        case "成功":
+                            color = "green";
+                            break;
+                    }
+                    messageElement.style.color = color;
+
+                    messageElement.style.display = "block"; // メッセージを表示
+
+                    // アニメーションを適用
+                    setTimeout(() => {
+                        messageElement.style.opacity = 1; // フェードイン
+                        messageElement.style.transform = "translateY(0)"; // スライドダウン
+                    }, 10); // 少し遅延させてアニメーションを適用
+
+                    // メッセージを表示してから一定時間後に非表示にする
+                    setTimeout(() => {
+                        messageElement.style.opacity = 0; // フェードアウト
+                        messageElement.style.transform = "translateY(-20px)"; // 上にスライドアウト
+                        setTimeout(() => {
+                            messageElement.style.display = "none"; // 完全に非表示にする
+                        }, 500); // フェードアウトのトランジション時間
+                    }, 2000); // 2000ミリ秒（2秒）後に非表示にする
+
+                    // 履歴を更新
+                    updateHistory(`${messageType}: ${selectedMessage} (選択回数: ${count[messageType]})`);
+                } else {
+                    errorMessageElement.style.display = "block"; // エラーメッセージを表示
+                }
+            } else {
+                messageElement.style.display = "none"; // 何も選ばれていない場合は非表示
+            }
+        };
+
+        // 履歴をクリアする機能
+        document.getElementById("clearHistoryButton").onclick = function() {
+            document.getElementById("history").innerHTML = ""; // 履歴をクリア
+        };
+    </script>
+</body>
+</html>
