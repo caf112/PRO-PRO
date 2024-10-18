@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced onClick Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* フォントファミリーを設定 */
+            text-align: center; /* 中央揃え */
+            margin: 0; /* マージンをリセット */
+            padding: 50px; /* 上下のパディングを追加 */
+            background-color: #f4f4f4; /* 背景色を設定 */
+            color: #333; /* テキスト色を設定 */
+        }
+        h1 {
+            font-size: 2em; /* 見出しのフォントサイズ */
+            margin-bottom: 20px; /* 見出しと本文の間のマージン */
+        }
+        button {
+            padding: 10px 20px; /* ボタンのパディング */
+            font-size: 1em; /* ボタンのフォントサイズ */
+            cursor: pointer; /* カーソルをポインタに変更 */
+            background-color: #007BFF; /* ボタンの背景色 */
+            color: white; /* ボタンのテキスト色 */
+            border: none; /* ボタンの境界線をなし */
+            border-radius: 5px; /* ボタンの角を丸める */
+            transition: background-color 0.3s; /* ホバー時の背景色変更のトランジション */
+        }
+        button:hover {
+            background-color: #0056b3; /* ホバー時の背景色 */
+        }
+        #message {
+            font-size: 1.5em; /* メッセージのフォントサイズ */
+            margin-top: 20px; /* 上部にスペースを追加 */
+            display: none; /* 初期状態は非表示 */
+        }
+    </style>
+</head>
+<body>
+    <h1>ボタンを押してメッセージを表示</h1>
+    <button id="myButton">クリックしてください</button> 
+    <div id="message"></div> 
+
+    <script>
+        const messages = [
+            { text: "ボタンが押されました！", color: "blue" },
+            { text: "次のメッセージです！", color: "green" },
+            { text: "もう一度クリックしてみて！", color: "red" },
+            { text: "最後のメッセージです！", color: "purple" }
+        ];
+
+        let currentIndex = 0; 
+
+        document.getElementById("myButton").onclick = function() {
+            var messageElement = document.getElementById("message");
+            
+            messageElement.textContent = messages[currentIndex].text;
+            messageElement.style.color = messages[currentIndex].color;
+            messageElement.style.display = "block"; 
+            
+            console.log(messages[currentIndex].text); 
+
+            currentIndex = (currentIndex + 1) % messages.length;
+        };
+    </script>
+</body>
+</html>
