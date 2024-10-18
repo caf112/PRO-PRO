@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Message Display with Count</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* フォントファミリーを設定 */
+            text-align: center; /* 中央揃え */
+            margin: 0; /* マージンをリセット */
+            padding: 50px; /* 上下のパディングを追加 */
+            background-color: #f4f4f4; /* 背景色を設定 */
+            color: #333; /* テキスト色を設定 */
+        }
+        h1 {
+            font-size: 2em; /* 見出しのフォントサイズ */
+            margin-bottom: 20px; /* 見出しと本文の間のマージン */
+        }
+        select {
+            padding: 10px; /* ドロップダウンのパディング */
+            font-size: 1em; /* ドロップダウンのフォントサイズ */
+            margin-bottom: 20px; /* ドロップダウンとメッセージの間のマージン */
+        }
+        #message {
+            font-size: 1.5em; /* メッセージのフォントサイズ */
+            margin-top: 20px; /* 上部にスペースを追加 */
+            display: none; /* 初期状態は非表示 */
+            opacity: 0; /* 初期透明度 */
+            transform: translateY(-20px); /* 初期位置を少し上に */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* 透明度と位置変更のトランジション */
+            cursor: pointer; /* クリック可能にする */
+        }
+        #specialMessage {
+            margin-top: 20px; /* 上部にスペースを追加 */
+            color: orange; /* 特別なメッセージの色 */
+            font-weight: bold; /* 太字 */
+            display: none; /* 初期状態は非表示 */
+        }
+    </style>
+</head>
+<body>
+    <h1>メッセージを選択してください</h1>
+    <select id="messageSelect">
+        <option value="">メッセージを選択</option>
+        <option value="ボタンが押されました！">ボタンが押されました！</option>
+        <option value="次のメッセージです！">次のメッセージです！</option>
+        <option value="もう一度選んでみて！">もう一度選んでみて！</option>
+        <option value="最後のメッセージです！">最後のメッセージです！</option>
+    </select>
+    <div id="message"></div> <!-- メッセージ表示エリア -->
+    <div id="specialMessage">特別なメッセージ: おめでとうございます！5回選択されました！</div> <!-- 特別なメッセージ表示エリア -->
+
+    <script>
+        let count = 0; // メッセージが選択された回数をカウント
+        const messageElement = document.getElementById("message");
+        const specialMessageElement = document.getElementById("specialMessage");
+
+        document.getElementById("messageSelect").onchange = function() {
+            const selectedMessage = this.value;
+
+            if (selectedMessage) {
+                messageElement.textContent = selectedMessage;
+
+                // ランダムな色を生成
+                const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+                messageElement.style.color = randomColor;
+
+                messageElement.style.display = "block"; // メッセージを表示
+
+                // アニメーションを適用
+                setTimeout(() => {
+                    messageElement.style.opacity = 1; // フェードイン
+                    messageElement.style.transform = "translateY(0)"; // スライドダウン
+                }, 10); // 少し遅延させてアニメーションを適用
+
+                // カウントを増やす
+                count++;
+                console.log(selectedMessage); // コンソールにもメッセージを表示
+
+                // メッセージを表示してから一定時間後に非表示にする
+                setTimeout(() => {
+                    messageElement.style.opacity = 0; // フェードアウト
+                    messageElement.style.transform = "translateY(-20px)"; // 上にスライドアウト
+                    setTimeout(() => {
+                        messageElement.style.display = "none"; // 完全に非表示にする
+                    }, 500); // フェードアウトのトランジション時間
+                }, 2000); // 2000ミリ秒（2秒）後に非表示にする
+
+                // 特別なメッセージの表示
+                if (count === 5) {
+                    specialMessageElement.style.display = "block"; // 特別なメッセージを表示
+                }
+
+                // クリックで即時非表示
+                messageElement.onclick = function() {
+                    messageElement.style.opacity = 0; // フェードアウト
+                    messageElement.style.transform = "translateY(-20px)"; // 上にスライドアウト
+                    setTimeout(() => {
+                        messageElement.style.display = "none"; // 完全に非表示にする
+                    }, 500); // フェードアウトのトランジション時間
+                };
+            } else {
+                messageElement.style.display = "none"; // 何も選ばれていない場合は非表示
+            }
+        };
+    </script>
+</body>
+</html>
