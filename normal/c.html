@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Message Display with History</title>
+    <title>alert</title>
     <style>
         body {
             font-family: Arial, sans-serif; /* フォントファミリーを設定 */
@@ -20,7 +20,20 @@
         select {
             padding: 10px; /* ドロップダウンのパディング */
             font-size: 1em; /* ドロップダウンのフォントサイズ */
-            margin-bottom: 20px; /* ドロップダウンとメッセージの間のマージン */
+            margin-bottom: 20px; /* ドロップダウンとボタンの間のマージン */
+        }
+        button {
+            padding: 10px 20px; /* ボタンのパディング */
+            font-size: 1em; /* ボタンのフォントサイズ */
+            cursor: pointer; /* カーソルをポインタに変更 */
+            background-color: #007BFF; /* ボタンの背景色 */
+            color: white; /* ボタンのテキスト色 */
+            border: none; /* ボタンの境界線をなし */
+            border-radius: 5px; /* ボタンの角を丸める */
+            transition: background-color 0.3s; /* ホバー時の背景色変更のトランジション */
+        }
+        button:hover {
+            background-color: #0056b3; /* ホバー時の背景色 */
         }
         #message {
             font-size: 1.5em; /* メッセージのフォントサイズ */
@@ -29,69 +42,33 @@
             opacity: 0; /* 初期透明度 */
             transform: translateY(-20px); /* 初期位置を少し上に */
             transition: opacity 0.5s ease, transform 0.5s ease; /* 透明度と位置変更のトランジション */
-            cursor: pointer; /* クリック可能にする */
-        }
-        #history {
-            margin-top: 30px; /* 履歴の上部にスペースを追加 */
-            text-align: left; /* 左揃え */
         }
     </style>
 </head>
 <body>
     <h1>メッセージを選択してください</h1>
-    <select id="messageType">
-        <option value="">メッセージのタイプを選択</option>
-        <option value="一般">一般</option>
-        <option value="警告">警告</option>
-        <option value="成功">成功</option>
-    </select>
     <select id="messageSelect">
         <option value="">メッセージを選択</option>
         <option value="ボタンが押されました！">ボタンが押されました！</option>
         <option value="次のメッセージです！">次のメッセージです！</option>
-        <option value="もう一度選んでみて！">もう一度選んでみて！</option>
+        <option value="もう一度クリックしてみて！">もう一度クリックしてみて！</option>
         <option value="最後のメッセージです！">最後のメッセージです！</option>
     </select>
+    <button id="showButton">表示</button>
     <div id="message"></div> <!-- メッセージ表示エリア -->
-    <div id="history"></div> <!-- メッセージ履歴表示エリア -->
 
     <script>
-        let count = { 一般: 0, 警告: 0, 成功: 0 }; // メッセージのタイプごとのカウント
-
-        document.getElementById("messageSelect").onchange = function() {
+        document.getElementById("showButton").onclick = function() {
             const messageElement = document.getElementById("message");
-            const selectedMessage = this.value;
-            const selectedType = document.getElementById("messageType").value;
+            const selectedMessage = document.getElementById("messageSelect").value;
 
-            if (selectedMessage && selectedType) {
+            if (selectedMessage) {
                 messageElement.textContent = selectedMessage;
-
-                // カスタマイズ: メッセージのタイプに基づいて色を変更
-                let color;
-                switch (selectedType) {
-                    case "一般":
-                        color = "blue";
-                        break;
-                    case "警告":
-                        color = "red";
-                        break;
-                    case "成功":
-                        color = "green";
-                        break;
-                }
-                messageElement.style.color = color;
-
                 messageElement.style.display = "block"; // メッセージを表示
-
-                // アニメーションを適用
                 setTimeout(() => {
                     messageElement.style.opacity = 1; // フェードイン
                     messageElement.style.transform = "translateY(0)"; // スライドダウン
                 }, 10); // 少し遅延させてアニメーションを適用
-
-                // カウントを増やす
-                count[selectedType]++;
-                updateHistory(selectedMessage, selectedType); // 履歴を更新
 
                 // メッセージを表示してから一定時間後に非表示にする
                 setTimeout(() => {
@@ -102,15 +79,9 @@
                     }, 500); // フェードアウトのトランジション時間
                 }, 2000); // 2000ミリ秒（2秒）後に非表示にする
             } else {
-                messageElement.style.display = "none"; // 何も選ばれていない場合は非表示
+                alert("メッセージを選択してください。");
             }
         };
-
-        // 履歴を更新する関数
-        function updateHistory(message, type) {
-            const historyElement = document.getElementById("history");
-            historyElement.innerHTML += `<div>${type}: ${message} (選択回数: ${count[type]})</div>`;
-        }
     </script>
 </body>
 </html>
