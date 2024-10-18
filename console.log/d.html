@@ -33,19 +33,26 @@
         #message {
             font-size: 1.5em; /* メッセージのフォントサイズ */
             margin-top: 20px; /* 上部にスペースを追加 */
+            display: none; /* 初期状態は非表示 */
         }
     </style>
 </head>
 <body>
     <h1>ボタンを押してメッセージを表示</h1>
     <button id="myButton">クリックしてください</button> 
-    <div id="message">ここにメッセージが表示されます</div> 
+    <div id="message">ボタンが押されました！</div> 
 
     <script>
         document.getElementById("myButton").onclick = function() {
             var messageElement = document.getElementById("message");
-            messageElement.textContent = "ボタンが押されました！"; 
-            console.log("ボタンが押されました！"); 
+            
+            if (messageElement.style.display === "none" || messageElement.style.display === "") {
+                messageElement.style.display = "block"; 
+                console.log("ボタンが押されました！"); 
+            } else {
+                messageElement.style.display = "none"; 
+                console.log("メッセージが非表示になりました！"); 
+            }
         };
     </script>
 </body>
